@@ -2,17 +2,21 @@ package examples.dungeonCrawler;
 
 import ecs.ComponentManager;
 import ecs.Entity;
+import ds.Grid;
 
 import examples.dungeonCrawler.components.*;
 
 class Main {
     static var player: Entity;
     static var componentManager: ComponentManager;
+    static var rooms: Grid<Array<Entity>>;
 
     static public function Main() {
         player = new Entity("Player", componentManager);
         player.addComponent(new Actor("Player", 50));
         player.addComponent(new Humanoid());
+
+        rooms = new Grid(10, 10);
     }
 
     static function playerSystem() {

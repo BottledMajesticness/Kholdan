@@ -21,28 +21,28 @@ private class TreeIterator<T> {
     public function new(node: TreeNode<T>) {
         this.root = node;
         this.topLeaf = node;
-        while (topLeaf.firstChild != null)
-            this.topLeaf = node.firstChild;
+        while (true) {
+            if (this.topLeaf.firstChild == null)
+                break;
+            this.topLeaf = this.topLeaf.firstChild;
+        }  
 
         this.currentNode = topLeaf;
         this.isNewBranch = false;
     }
 
     public function next(): TreeNode<T> {
-        if (this.isNewBranch) {
-            while (currentNode.firstChild != null)
-                currentNode = currentNode.firstChild;
+        var old = this.currentNode;
+
+        if (this.currentNode.next == null) {
+            this.currentNode = this.currentNode.parent;
         } else {
-            if (this.currentNode.next != null) {
-                this.currentNode = this.currentNode.next;
-                this.isNewBranch = this.currentNode.firstChild != null;
-            } else {
-                this.currentNode = this.currentNode.parent;
-                this.isNewBranch = false;
-            }
+            this.currentNode = this.currentNode.next;
+            while (this.currentNode.firstChild != null)
+                this.currentNode = this.currentNode.firstChild;
         }
 
-        return this.currentNode;
+        return old;
     }
 
     public function hasNext(): Bool {

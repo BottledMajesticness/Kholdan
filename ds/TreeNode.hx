@@ -9,6 +9,8 @@ class TreeNode<T> {
 
     public function new(data: T) {
         this.data = data;
+        this.firstChild = null;
+        this.next = null;
     }
 
     public inline function children(): Iterator<TreeNode<T>> {
@@ -28,9 +30,7 @@ class TreeNode<T> {
             throw "Node already is a child!";
 
         child.parent = this;
-
-        if (this.firstChild != null)
-            child.next = this.firstChild;
+        child.next = this.firstChild;
 
         this.firstChild = child;
         return child;
@@ -123,11 +123,12 @@ private class ChildrenIterator<T> {
     }
 
     public function next(): TreeNode<T> {
+        var last: TreeNode<T> = this.currentNode;
         this.currentNode = this.currentNode.next;
-        return this.currentNode;
+        return last;
     }
 
     public function hasNext(): Bool {
-        return this.currentNode.next == null;
+        return this.currentNode != null;
     }
 }
