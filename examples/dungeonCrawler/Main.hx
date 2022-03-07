@@ -15,13 +15,28 @@ class Main {
 
     static public function main() {
         ecs = new ComponentManager();
-        player = new Entity("Player", ecs);
-        var container: Container = ecs.container(20).getComponent(Container);
+        var container: Container = ecs.container(3).getComponent(Container);
+        Sys.println(ecs.getComponents(Container).keys().next());
 
         while (container.currentWeight < container.maxWeight) {
             container.add(ecs.garbageItem("Boot").getComponent(Item));
         }
 
-        Sys.println(Type.getSuperClass(Container));
+        Sys.println(container.contents());
+        for (item in ecs.getComponents(Item).keys())
+            Sys.println(item);
+
+        Entity.entityMap[ecs.getEnitity(container.remove(container.items[0]))].destroy();
+
+        Sys.println(container.contents());
+        for (item in ecs.getComponents(Item).keys())
+            Sys.println(item);
+
+        container.add(ecs.garbageItem("Boot").getComponent(Item));
+        container.add(ecs.garbageItem("Boot").getComponent(Item));
+
+        Sys.println(container.contents());
+        for (item in ecs.getComponents(Item).keys())
+            Sys.println(item);
     }
 }

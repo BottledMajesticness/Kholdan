@@ -3,7 +3,7 @@ package examples.dungeonCrawler.components;
 class Container {
     public var maxWeight: Int;
     public var currentWeight: Int;
-    var items: Array<Item>;
+    public var items: Array<Item>;
 
     public function new(maxWeight: Int, ?items: Array<Item>) {
         this.maxWeight = maxWeight;

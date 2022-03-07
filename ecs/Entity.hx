@@ -1,16 +1,32 @@
 package ecs;
 
+import haxe.ds.GenericStack;
+
 class Entity {
     var componentManager: ComponentManager;
-    public var id: String;
+    static var id_counter: Int = 0;
+    public static var entityMap: Map<Int, Entity> = new Map();
+    static var free_ids: GenericStack<Int> = new GenericStack();
+    public var id: Int;
+    public var name: String;
 
-    public function new(id: String, componentManager: ComponentManager) {
-        this.id = id;
+    public function new(name: String, componentManager: ComponentManager) {
+        if (free_ids.isEmpty()) {
+            this.id = id_counter;
+            id_counter++;
+        } else {
+            this.id = free_ids.pop();
+        }
+
+        entityMap.set(this.id, this);
+
         this.componentManager = componentManager;
     }
 
     public function destroy() {
         this.componentManager.removeEntity(this.id);
+        entityMap.remove(this.id);
+        free_ids.add(this.id);
 
         this.id = null;
         this.componentManager = null;
