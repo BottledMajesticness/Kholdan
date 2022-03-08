@@ -1,14 +1,14 @@
 package ecs;
 
 class ComponentManager {
-    // Holds all of the "entity->component" maps in a map
+    // Holds all of the "entity -> component" maps in a map
     private var metaMap: Map<String, Map<Int, Any>>;
 
     public function new() {
         this.metaMap = new Map();
     }
 
-    // Allows access to a "entity->component" map of components T
+    // Allows access to a "entity -> component" map of components T
     public inline function getComponents<T>(componentClass: Class<T>): Map<Int, T> {
         // Probably could rewrite this as a try/catch block
         var className = Type.getClassName(componentClass);

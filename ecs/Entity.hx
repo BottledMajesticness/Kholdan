@@ -3,9 +3,10 @@ package ecs;
 import haxe.ds.GenericStack;
 
 class Entity {
+    public static var entityMap: Map<Int, Entity> = new Map();
+
     var componentManager: ComponentManager;
     static var id_counter: Int = 0;
-    public static var entityMap: Map<Int, Entity> = new Map();
     static var free_ids: GenericStack<Int> = new GenericStack();
     public var id: Int;
     public var name: String;
@@ -46,5 +47,9 @@ class Entity {
 
     public inline function hasComponent<T>(componentClass: Class<T>): Bool {
         return componentManager.getComponents(componentClass).exists(this.id);
+    }
+
+    public static function getEntity<T>() {
+        
     }
 }
