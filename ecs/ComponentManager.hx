@@ -2,66 +2,43 @@ package ecs;
 
 class ComponentManager {
     // Holds all of the "entity -> component" maps in a map
-    private var metaMap: Map<String, Map<EntityId, Any>>;
-
+    public var meta_map: Map<String, Map<Int, Any>>;
 
     public function new() {
-        this.metaMap = new Map();
+        this.meta_map = new Map();
     }
 
 
     // Allows access to a "entity -> component" map of components T
-    public inline function getECMapOf<T>(componentClass: Class<T>): Map<EntityId, T> {
+    public inline function getECMapOf<T>(component_class: Class<T>): Map<Int, T> {
         // Probably could rewrite this as a try/catch block
-        var className = Type.getClassName(componentClass);
-        if (metaMap.exists(className))
-            return cast metaMap[className];
+        var class_name = Type.getClassName(component_class);
+        if (meta_map.exists(class_name))
+            return cast meta_map[class_name];
 
         // Disgusting casting, might be unsafe, might be not. Yeah, I'm not really good at this?
-        throw 'No components of $className have been created!';
+        throw 'No components of $class_name have been created!';
     }
-
-
-    // Nice iterator access functions
-    public inline function getComponents<T>(componentClass: Class<T>): Iterator<T> {
-        return getECMapOf(componentClass).iterator();
-    }
-
-    public inline function getEntitiesIdsWith<T>(componentClass: Class<T>): Iterator<Int> {
-        return getECMapOf(componentClass).keys();
-    }
-
-
-    // Returns an entity that possess said component (probably needs a rework)
-    public function getOwnerOf<T>(component: T): Entity {
-        for (entity => comp in getECMapOf(Type.getClass(component)))
-            if (comp == component)
-                return Entity.entityMap[entity];
-
-        throw 'No entity with such component';
-    }
-
     
     // Creates an entity->component of type T in a corresponding map
     // If such map does not exist, this method creates one
-    public function addToEntity<T>(id: EntityId, component: T): Void {
-        var inputClass = Type.getClass(component);
-        var className  = Type.getClassName(inputClass);
+    public function addToEntity<T>(id: Int, component: T): Void {
+        var input_class = Type.getClass(component);
+        var class_name  = Type.getClassName(input_class);
 
-        if (!metaMap.exists(className))
-            metaMap.set(className, new Map<EntityId, T>());
+        if (!meta_map.exists(class_name))
+            meta_map.set(class_name, new Map<Int, T>());
 
-        getECMapOf(inputClass).set(id, component);
+        getECMapOf(input_class).set(id, component);
     }
 
-    public function removeEntity(id: EntityId) {
-        for (map in this.metaMap)
-            map.remove(id);
+    public function removeEntity(id: Int) {
+        
     }
 
-    public function removeComponents<T>(componentClass: Class<T>) {
-        getECMapOf(componentClass).clear();
-        metaMap.remove(Type.getClassName(componentClass));
+    public function removeComponents<T>(component_class: Class<T>) {
+        getECMapOf(component_class).clear();
+        meta_map.remove(Type.getClassName(component_class));
     }
 }
 
