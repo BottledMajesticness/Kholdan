@@ -52,7 +52,7 @@ class ECSUtils {
     }
 
     // access to entity from a component
-    public static inline function getEntity<T>(component: T): Entity {
+    public static function getEntity<T>(component: T): Entity {
         for (id => comp in world.getECMapOf(Type.getClass(component)))
             if (comp == component)
                 return entity_map[id];

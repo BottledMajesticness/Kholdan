@@ -7,38 +7,37 @@ import ds.Grid;
 import examples.dungeonCrawler.components.*;
 
 using examples.dungeonCrawler.Prefabs;
-using ecs.ComponentExtender;
+using ecs.ECSUtils;
 
 class Main {
     static var player: Entity;
-    static var ecs: ComponentManager;
     static var rooms: Grid<Array<Entity>>;
 
     static public function main() {
-        ecs = new ComponentManager();
+        ECSUtils.world = new ComponentManager();
 
-        var container: Container = ecs.container(3).getComponent(Container);
-        Sys.println(ecs.getEntitiesIdsWith(Container).next());
+        var container: Container = Prefabs.container(3).getComponent(Container);
+        Sys.println(Container.entities().next());
 
         while (container.currentWeight < container.maxWeight) {
-            container.add(ecs.garbageItem("Boot").getComponent(Item));
+            container.add(Prefabs.garbageItem("Boot").getComponent(Item));
         }
 
         Sys.println(container.contents());
-        for (item in ecs.getEntitiesIdsWith(Item))
-            Sys.println(item);
+        for (id in Item.entities())
+            Sys.println(id);
 
-        container.remove(container.items[0]).getEntity(ecs).destroy();
-
-        Sys.println(container.contents());
-        for (item in ecs.getEntitiesIdsWith(Item))
-            Sys.println(item);
-
-        container.add(ecs.garbageItem("Boot").getComponent(Item));
-        container.add(ecs.garbageItem("Boot").getComponent(Item));
+        container.remove(container.items[0]).getEntity().destroy();
 
         Sys.println(container.contents());
-        for (item in ecs.getEntitiesIdsWith(Item))
-            Sys.println(item);
+        for (id in Item.entities())
+            Sys.println(id);
+
+        container.add(Prefabs.garbageItem("Boot").getComponent(Item));
+        container.add(Prefabs.garbageItem("Boot").getComponent(Item));
+
+        Sys.println(container.contents());
+        for (id in Item.entities())
+            Sys.println(id);
     }
 }
