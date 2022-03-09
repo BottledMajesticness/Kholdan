@@ -9,6 +9,8 @@ class ECSUtils {
     public static var world: ComponentManager;
     public static var entity_map: Map<Int, Entity> = new Map();
 
+    // entity instancing utils
+    @:noUsing
     public static inline function createEntity(name: String): Entity {
         inline function generate_id(): Int {
             if (free_ids.isEmpty())
@@ -32,14 +34,7 @@ class ECSUtils {
         enitity.id = null;
     }
 
-    public static inline function getEntity<T>(component: T): Entity {
-        for (id => comp in world.getECMapOf(Type.getClass(component)))
-            if (comp == component)
-                return entity_map[id];
-        
-        throw 'No entity with $component';
-    }
-    
+    // managing components in entities
     public static inline function addComponent<T>(entity: Entity, component: T): Void {
         world.addToEntity(entity.id, component);
     }
@@ -56,6 +51,16 @@ class ECSUtils {
         return world.getECMapOf(componentClass).exists(entity.id);
     }
 
+    // access to entity from a component
+    public static inline function getEntity<T>(component: T): Entity {
+        for (id => comp in world.getECMapOf(Type.getClass(component)))
+            if (comp == component)
+                return entity_map[id];
+        
+        throw 'No entity with $component';
+    }
+
+    // access to global lists
     public static inline function instances<T>(component_class: Class<T>): Iterator<T> {
         return world.getECMapOf(component_class).iterator();
     }

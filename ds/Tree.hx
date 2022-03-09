@@ -14,38 +14,36 @@ class Tree<T> {
 
 private class TreeIterator<T> {
     var root: TreeNode<T>;
-    var currentNode: TreeNode<T>;
-    var topLeaf: TreeNode<T>;
-    var isNewBranch: Bool;
+    var current: TreeNode<T>;
+    var start: TreeNode<T>;
 
     public function new(node: TreeNode<T>) {
         this.root = node;
-        this.topLeaf = node;
+        this.start = node;
         while (true) {
-            if (this.topLeaf.firstChild == null)
+            if (this.start.first_child == null)
                 break;
-            this.topLeaf = this.topLeaf.firstChild;
+            this.start = this.start.first_child;
         }  
 
-        this.currentNode = topLeaf;
-        this.isNewBranch = false;
+        this.current = start;
     }
 
     public function next(): TreeNode<T> {
-        var old = this.currentNode;
+        var old = this.current;
 
-        if (this.currentNode.next == null) {
-            this.currentNode = this.currentNode.parent;
+        if (this.current.next == null) {
+            this.current = this.current.parent;
         } else {
-            this.currentNode = this.currentNode.next;
-            while (this.currentNode.firstChild != null)
-                this.currentNode = this.currentNode.firstChild;
+            this.current = this.current.next;
+            while (this.current.first_child != null)
+                this.current = this.current.first_child;
         }
 
         return old;
     }
 
     public function hasNext(): Bool {
-        return this.currentNode != root;
+        return this.current != root;
     }
 }

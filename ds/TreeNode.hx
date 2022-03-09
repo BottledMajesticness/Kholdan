@@ -4,12 +4,12 @@ class TreeNode<T> {
     public var data: T;
 
     public var parent: TreeNode<T>;
-    public var firstChild: TreeNode<T>;
+    public var first_child: TreeNode<T>;
     public var next: TreeNode<T>;
 
     public function new(data: T) {
         this.data = data;
-        this.firstChild = null;
+        this.first_child = null;
         this.next = null;
     }
 
@@ -30,42 +30,42 @@ class TreeNode<T> {
             throw "Node already is a child!";
 
         child.parent = this;
-        child.next = this.firstChild;
+        child.next = this.first_child;
 
-        this.firstChild = child;
+        this.first_child = child;
         return child;
     }
 
-    public function insertChild(newChild: TreeNode<T>, index: Int): TreeNode<T> {
-        if (newChild.parent != null)
+    public function insertChild(node: TreeNode<T>, index: Int): TreeNode<T> {
+        if (node.parent != null)
             throw "Node already is a child!";
 
         index = toValidIndex(index);
 
         var i: Int = 0;
-        var prevChild: TreeNode<T> = this.firstChild;
+        var prev_child: TreeNode<T> = this.first_child;
 
         for (child in this.children())
             if (i == index) {
-                newChild.parent = this;
-                newChild.next   = prevChild.next;
+                node.parent = this;
+                node.next   = prev_child.next;
 
-                prevChild.next = newChild;
+                prev_child.next = node;
 
-                return newChild;
+                return node;
             } else {
-                prevChild = child;
+                prev_child = child;
             }
 
         throw "Index Out Of Reach!";
     }
 
     public function removeFirstChild(): TreeNode<T> {
-        if (this.firstChild == null)
+        if (this.first_child == null)
             return null;
 
-        var old: TreeNode<T> = this.firstChild;
-        this.firstChild = this.firstChild.next;
+        var old: TreeNode<T> = this.first_child;
+        this.first_child = this.first_child.next;
         return old.orphan();
     }
 
@@ -80,7 +80,7 @@ class TreeNode<T> {
         index = toValidIndex(index);
 
         var i: Int = 0;
-        var prevChild: TreeNode<T> = this.firstChild;
+        var prevChild: TreeNode<T> = this.first_child;
 
         for (child in this.children())
             if (i == index) {
@@ -116,19 +116,19 @@ class TreeNode<T> {
 }
 
 private class ChildrenIterator<T> {
-    var currentNode: TreeNode<T>;
+    var current: TreeNode<T>;
 
     public function new(node: TreeNode<T>) {
-        this.currentNode = node.firstChild;
+        this.current = node.first_child;
     }
 
     public function next(): TreeNode<T> {
-        var last: TreeNode<T> = this.currentNode;
-        this.currentNode = this.currentNode.next;
+        var last: TreeNode<T> = this.current;
+        this.current = this.current.next;
         return last;
     }
 
     public function hasNext(): Bool {
-        return this.currentNode != null;
+        return this.current != null;
     }
 }

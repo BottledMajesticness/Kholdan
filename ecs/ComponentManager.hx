@@ -8,7 +8,6 @@ class ComponentManager {
         this.meta_map = new Map();
     }
 
-
     // Allows access to a "entity -> component" map of components T
     public inline function getECMapOf<T>(component_class: Class<T>): Map<Int, T> {
         // Probably could rewrite this as a try/catch block
@@ -31,15 +30,4 @@ class ComponentManager {
 
         getECMapOf(input_class).set(id, component);
     }
-
-    public function removeEntity(id: Int) {
-        
-    }
-
-    public function removeComponents<T>(component_class: Class<T>) {
-        getECMapOf(component_class).clear();
-        meta_map.remove(Type.getClassName(component_class));
-    }
 }
-
-typedef EntityId = Int;
