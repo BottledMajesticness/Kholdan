@@ -7,6 +7,7 @@ import ds.Grid;
 import examples.dungeonCrawler.components.*;
 
 using examples.dungeonCrawler.Prefabs;
+using ecs.ComponentExtender;
 
 class Main {
     static var player: Entity;
@@ -15,28 +16,29 @@ class Main {
 
     static public function main() {
         ecs = new ComponentManager();
+
         var container: Container = ecs.container(3).getComponent(Container);
-        Sys.println(ecs.getComponents(Container).keys().next());
+        Sys.println(ecs.getEntitiesIdsWith(Container).next());
 
         while (container.currentWeight < container.maxWeight) {
             container.add(ecs.garbageItem("Boot").getComponent(Item));
         }
 
         Sys.println(container.contents());
-        for (item in ecs.getComponents(Item).keys())
+        for (item in ecs.getEntitiesIdsWith(Item))
             Sys.println(item);
 
-        Entity.entityMap[ecs.getEnitity(container.remove(container.items[0]))].destroy();
+        container.remove(container.items[0]).getEntity(ecs).destroy();
 
         Sys.println(container.contents());
-        for (item in ecs.getComponents(Item).keys())
+        for (item in ecs.getEntitiesIdsWith(Item))
             Sys.println(item);
 
         container.add(ecs.garbageItem("Boot").getComponent(Item));
         container.add(ecs.garbageItem("Boot").getComponent(Item));
 
         Sys.println(container.contents());
-        for (item in ecs.getComponents(Item).keys())
+        for (item in ecs.getEntitiesIdsWith(Item))
             Sys.println(item);
     }
 }

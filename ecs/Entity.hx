@@ -38,18 +38,14 @@ class Entity {
     }
 
     public inline function removeComponent<T>(componentClass: Class<T>): Void {
-        componentManager.getComponents(componentClass).remove(this.id);
+        componentManager.getECMapOf(componentClass).remove(this.id);
     }
 
     public inline function getComponent<T>(componentClass: Class<T>): T {
-        return componentManager.getComponents(componentClass)[this.id];
+        return componentManager.getECMapOf(componentClass)[this.id];
     }
 
     public inline function hasComponent<T>(componentClass: Class<T>): Bool {
-        return componentManager.getComponents(componentClass).exists(this.id);
-    }
-
-    public static function getEntity<T>() {
-        
+        return componentManager.getECMapOf(componentClass).exists(this.id);
     }
 }
