@@ -4,9 +4,9 @@ import ecs.ComponentManager;
 import ecs.Entity;
 import ds.Grid;
 
+import examples.dungeonCrawler.Prefabs;
 import examples.dungeonCrawler.components.*;
 
-using examples.dungeonCrawler.Prefabs;
 using ecs.ECSUtils;
 
 class Main {

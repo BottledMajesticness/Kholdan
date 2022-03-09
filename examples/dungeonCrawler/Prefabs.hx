@@ -8,7 +8,6 @@ import ecs.Entity;
 
 using ecs.ECSUtils;
 
-@:noUsing
 class Prefabs {
     public static inline function garbageItem(name: String, weight: Int = 1): Entity {
         var garbage: Entity = ECSUtils.createEntity(name);
