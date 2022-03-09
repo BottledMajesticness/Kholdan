@@ -3,7 +3,6 @@ package examples.dungeonCrawler;
 import examples.dungeonCrawler.components.Actor;
 import examples.dungeonCrawler.components.Container;
 import examples.dungeonCrawler.components.Item;
-import ecs.ComponentManager;
 import ecs.Entity;
 
 using ecs.ECSUtils;

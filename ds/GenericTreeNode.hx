@@ -1,17 +1,20 @@
 package ds;
 
-class TreeNode {
-    public var parent: TreeNode;
-    public var first_child: TreeNode;
-    public var next: TreeNode;
+class GenericTreeNode<T> {
+    public var data: T;
 
-    public function new() {
+    public var parent: GenericTreeNode<T>;
+    public var first_child: GenericTreeNode<T>;
+    public var next: GenericTreeNode<T>;
+
+    public function new(data: T) {
+        this.data = data;
         this.first_child = null;
         this.next = null;
     }
 
-    public inline function children(): Iterator<TreeNode> {
-        return new ChildrenIterator(this);
+    public inline function children(): Iterator<GenericTreeNode<T>> {
+        return new ChildrenIterator<T>(this);
     }
 
     public inline function count(): Int {
@@ -22,7 +25,7 @@ class TreeNode {
         return i;
     }
 
-    public function addChild(child: TreeNode): TreeNode {
+    public function addChild(child: GenericTreeNode<T>): GenericTreeNode<T> {
         if (child.parent != null)
             throw "Node already is a child!";
 
@@ -33,14 +36,14 @@ class TreeNode {
         return child;
     }
 
-    public function insertChild(node: TreeNode, index: Int): TreeNode {
+    public function insertChild(node: GenericTreeNode<T>, index: Int): GenericTreeNode<T> {
         if (node.parent != null)
             throw "Node already is a child!";
 
         index = toValidIndex(index);
 
         var i: Int = 0;
-        var prev_child: TreeNode = this.first_child;
+        var prev_child: GenericTreeNode<T> = this.first_child;
 
         for (child in this.children())
             if (i == index) {
@@ -57,27 +60,27 @@ class TreeNode {
         throw "Index Out Of Reach!";
     }
 
-    public function removeFirstChild(): TreeNode {
+    public function removeFirstChild(): GenericTreeNode<T> {
         if (this.first_child == null)
             return null;
 
-        var old: TreeNode = this.first_child;
+        var old: GenericTreeNode<T> = this.first_child;
         this.first_child = this.first_child.next;
         return old.orphan();
     }
 
-    public function removeLastChild(): TreeNode {
+    public function removeLastChild(): GenericTreeNode<T> {
         for (child in this.children())
             if (child.next == null)
                 return child.orphan();
         return null;
     }
 
-    public function removeChild(index: Int): TreeNode {
+    public function removeChild(index: Int): GenericTreeNode<T> {
         index = toValidIndex(index);
 
         var i: Int = 0;
-        var prevChild: TreeNode = this.first_child;
+        var prevChild: GenericTreeNode<T> = this.first_child;
 
         for (child in this.children())
             if (i == index) {
@@ -102,7 +105,7 @@ class TreeNode {
         return index;
     }
 
-    private inline function orphan(): TreeNode {
+    private inline function orphan(): GenericTreeNode<T> {
         if (this != null) {
            this.parent = null;
            this.next = null;
@@ -112,15 +115,15 @@ class TreeNode {
     }
 }
 
-private class ChildrenIterator {
-    var current: TreeNode;
+private class ChildrenIterator<T> {
+    var current: GenericTreeNode<T>;
 
-    public function new(node: TreeNode) {
+    public function new(node: GenericTreeNode<T>) {
         this.current = node.first_child;
     }
 
-    public function next(): TreeNode {
-        var last: TreeNode = this.current;
+    public function next(): GenericTreeNode<T> {
+        var last: GenericTreeNode<T> = this.current;
         this.current = this.current.next;
         return last;
     }
