@@ -27,7 +27,7 @@ class Main {
         for (id in Item.entities())
             Sys.println(id);
 
-        container.remove(container.items[0]).getEntity().destroy();
+        container.remove(container.items[0]).getEntity().free();
 
         Sys.println(container.contents());
         for (id in Item.entities())

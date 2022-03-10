@@ -7,25 +7,17 @@ class ECSUtils {
     static var free_ids: GenericStack<Int> = new GenericStack();
 
     public static var world: ComponentManager;
-    public static var entity_map: Map<Int, Entity> = new Map();
+    public static var all_entities: Array<Entity> = new Array();
 
     // entity instancing utils
     @:noUsing
     public static inline function createEntity(name: String): Entity {
-        inline function generate_id(): Int {
-            if (free_ids.isEmpty())
-                return id_counter++;
-            else
-                return free_ids.pop();
-        }
-
-        var entity = new Entity(name, generate_id());
-        entity_map.set(entity.id, entity);
-        return entity;
+        var id = if (free_ids.isEmpty()) id_counter++ else free_ids.pop();
+        return all_entities[id] = new Entity(name, id);
     }
 
-    public static inline function destroy(enitity: Entity) {
-        entity_map.remove(enitity.id);
+    public static inline function free(enitity: Entity) {
+        all_entities[enitity.id] = null;
         free_ids.add(enitity.id);
 
         for (map in world.meta_map)
@@ -55,7 +47,7 @@ class ECSUtils {
     public static function getEntity<T>(component: T): Entity {
         for (id => comp in world.getECMapOf(Type.getClass(component)))
             if (comp == component)
-                return entity_map[id];
+                return all_entities[id];
         
         throw 'No entity with $component';
     }
