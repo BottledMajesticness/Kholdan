@@ -1,29 +1,29 @@
 package examples.treeExample;
 
-import ds.TreeNode;
-import ds.Tree;
+import ds.GenericTreeNode;
+import ds.GenericTree;
 
 class Main {
-    static var tree: Tree<String>;
+    static var tree: GenericTree<String>;
 
     static function main() {
 
-        tree = new Tree("Root");
-        var layer1: TreeNode<String> = tree.root.addChild(new TreeNode("1"));
-        layer1.addChild(new TreeNode("1:1"));
-        layer1.addChild(new TreeNode("1:2"));
+        tree = new GenericTree("Root");
+        var layer1: GenericTreeNode<String> = tree.root.addChild(new GenericTreeNode("1"));
+        layer1.addChild(new GenericTreeNode("1:1"));
+        layer1.addChild(new GenericTreeNode("1:2"));
 
-        var layer2 = tree.root.addChild(new TreeNode("2"));
-        layer2.addChild(new TreeNode("2:1"));
-        layer2.addChild(new TreeNode("2:2"));
+        var layer2 = tree.root.addChild(new GenericTreeNode("2"));
+        layer2.addChild(new GenericTreeNode("2:1"));
+        layer2.addChild(new GenericTreeNode("2:2"));
 
-        var layer3 = tree.root.addChild(new TreeNode("3"));
-        layer3.addChild(new TreeNode("3:1"));
-        layer3.addChild(new TreeNode("3:2"));
+        var layer3 = tree.root.addChild(new GenericTreeNode("3"));
+        layer3.addChild(new GenericTreeNode("3:1"));
+        layer3.addChild(new GenericTreeNode("3:2"));
 
-        var sublayer = layer2.firstChild.next.addChild(new TreeNode("2:1:1"));
-        sublayer.addChild(new TreeNode("2:1:1:1"));
-        sublayer.addChild(new TreeNode("2:1:1:2"));
+        var sublayer = layer2.firstChild.next.addChild(new GenericTreeNode("2:1:1"));
+        sublayer.addChild(new GenericTreeNode("2:1:1:1"));
+        sublayer.addChild(new GenericTreeNode("2:1:1:2"));
 
         // Sys.println(layer3.firstChild == null);
         // Sys.println(layer3.firstChild.firstChild == null);
