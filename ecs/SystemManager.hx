@@ -12,11 +12,7 @@ class SystemManager {
             runSystems(system());
     }
 
-    function remove(event: EnumValue, system: List<()->EnumValue>): Void {
+    function remove(event: EnumValue, system: ()->EnumValue): Void {
         event_map[event].remove(system);
-    }
-
-    function () {
-        
     }
 }
