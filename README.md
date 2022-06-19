@@ -26,5 +26,3 @@ And when it is, people tend to write their own workarounds that then they slap o
 Trying to make your code cooperate with the game engine can be a big pain in your gluteus maximus, but if you make your own engine you get to know all of the inner workings of the engine.  
 
 So even if you need to write code that doesn't really work with the game engine, **you can just extend it**.
-
-# Attention, work still in progress, now I go to sleep if you see this wish me goodnight
